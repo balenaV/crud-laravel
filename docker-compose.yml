@@ -10,10 +10,12 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
+      - ~/.ssh:/root/.ssh:ro
     ports:
       - "8000:8000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy # Esta linha garante que o 'app' só inicie quando o 'mysql' estiver saudável
     networks:
       - laravel
 
@@ -26,10 +28,14 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: genesysjp
       MYSQL_DATABASE: crud-laravel
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_genesysjp
     volumes:
       - dbdata:/var/lib/mysql
+    healthcheck: # Adiciona uma verificação de saúde para o MySQL
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pgenesysjp"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 20s # Dá um tempo inicial para o MySQL subir antes de começar as verificações
     networks:
       - laravel
 
