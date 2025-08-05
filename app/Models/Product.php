@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Permite que esses campos sejam preenchidos no banco
     protected $fillable = [
         "name",
         "detail"

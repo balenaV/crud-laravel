@@ -14,9 +14,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::ltaest()->paginate(5);
+        // Pega os 5 produtos mais recentes do banco
+        $products = Product::latest()->paginate(5);
 
-        return view("products.index", compact("products"));
+        return view("products.index", compact("products"))
+            ->with(request()->input('page'));
     }
 
     /**
