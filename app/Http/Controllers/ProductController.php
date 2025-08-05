@@ -71,7 +71,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -83,7 +83,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        // Valida o Input
+        $request->validate([
+            'name' => 'required',
+            'detail' => 'required'
+        ]);
+
+        // Atualiza o Produto no banco de dados
+        $product->update($request->all());
+
+        // Redireciona o usuario  de volta ao index e envia uma mensagem de sucesso
+        return redirect()->route('products.index')->with('success', 'Produto editado com sucesso!');
     }
 
     /**
@@ -94,6 +104,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        //Deleta o produto
+        $product->delete();
+        // Redirecionar ao index e enviar mensagem de sucesso
+        return redirect()->route('products.index')->with('success', 'Produto deletado com sucesso');
     }
 }
