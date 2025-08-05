@@ -23,7 +23,7 @@
             <th>ID</th>
             <th>Nome</th>
             <th>Detalhes</th>
-            <th width="280px">Action</th>
+            <th width="280px">Ações</th>
         </tr>
         @foreach ($products as $product)
             <tr>
@@ -32,14 +32,16 @@
                 <td>{{ $product->detail }}</td>
                 <td>
                     <form action="{{ route('products.destroy', $product->id) }}" method="post">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">Show</a>
-                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">Exibir</a>
+                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Editar</a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Deletar</button>
                     </form>
                 </td>
             </tr>
         @endforeach
     </table>
+
+    {{ $products->links() }}
 @endsection
