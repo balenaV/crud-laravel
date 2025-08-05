@@ -14,12 +14,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Pega os 5 produtos mais recentes do banco
+        // Pega os 5 produtos mais recentes do banco com paginação
         $products = Product::latest()->paginate(5);
 
-        return view("products.index", compact("products"))
-            ->with(request()->input('page'));
+        return view('products.index', compact('products'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,7 +48,7 @@ class ProductController extends Controller
         // Cria um novo Produto no banco de dados
         Product::create($request->all());
 
-        // Redireciona o usuario e envia uma mensagem amigavel
+        // Redireciona o usuario e envia uma mensagem de sucesso
         return redirect()->route('products.index')->with('success', 'Produto criado com sucesso!');
     }
 
@@ -60,7 +60,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product'));
     }
 
     /**
